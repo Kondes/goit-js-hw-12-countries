@@ -1,6 +1,6 @@
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
-import { defaults, notice, error } from '@pnotify/core';
+import { defaults, notice } from '@pnotify/core';
 defaults.closerHover = false;
 
 import countryList from '../templates/list.hbs';
@@ -17,25 +17,15 @@ function createNotice(noticeMessage) {
   return myNotice;
 }
 
-function createError(errorMessage) {
-  return error({
-    text: errorMessage,
-    animation: 'fade',
-    shadow: true,
-    hide: true,
-    delay: 2000,
-  });
-}
-
 const paint = (arg, value) => {
-  if (value.length <= 2) {
-    createNotice('Too many matches found. Please enter a more specific query!');
+  if (value.length < 2) {
+    createNotice('Please write more symbols!!!');
   } else if (arg.length >= 2 && arg.length <= 10) {
     countryContainer.innerHTML = countryList(arg);
   } else if (arg.length === 1) {
     countryContainer.innerHTML = countriesMarkup(arg[0]);
   } else if (arg.length > 10) {
-    createError('errorMessage');
+    createNotice('Too many matches found. Please enter a more specific query!');
   }
 };
 
